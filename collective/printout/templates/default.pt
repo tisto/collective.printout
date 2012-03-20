@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format"
+         xmlns:tal="http://xml.zope.org/namespaces/tal">
+
+  <!-- PAGE LAYOUT -->
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="master-page"
+                           page-height="297mm"
+                           page-width="210mm"
+                           margin-left="20mm"
+                           margin-right="20mm"
+                           margin-top="20mm"
+                           margin-bottom="20mm">
+      <fo:region-body margin-top="15mm"
+                      margin-bottom="15mm" />
+      <fo:region-before extent="10mm" />
+      <fo:region-after extent="10mm" />
+    </fo:simple-page-master>
+  </fo:layout-master-set>
+
+  <!-- PAGE SEQUENCE -->
+  <fo:page-sequence master-reference="master-page">
+
+    <!-- REGION BEFORE -->
+    <fo:static-content flow-name="xsl-region-before">
+    	
+		<!-- Portal Title -->
+        <fo:block font-size="2.5mm" text-align="center" 
+                  tal:content="plone_portal_state.portal_title()">
+          Plone Site
+		</fo:block>
+    
+	</fo:static-content>
+
+    <!-- REGION AFTER -->
+    <fo:static-content flow-name="xsl-region-after">
+      <fo:block font-size="2.5mm" text-align="center">
+        Powered by Plone and Python
+      </fo:block>
+    </fo:static-content>
+
+    <!-- REGION BODY -->
+    <fo:flow flow-name="xsl-region-body">
+    
+      <!-- Site Logo -->
+      <fo:block>
+        <fo:external-graphic 
+            src="logo.png"
+            content-height="50mm"
+            content-width="50mm"
+            tal:attributes="src context.portal_url() + '/logo.png'" />
+      </fo:block>
+    
+      <!-- Document Title -->
+      <fo:block font-size="18px" 
+                tal:content="context.Title()">Title</fo:block>
+    
+      <!-- Document Description -->
+      <fo:block font-size="13px"
+                tal:content="context.Description()">Description</fo:block>
+      
+      <!-- Document Main Body Text (rendered separately in body.xsl) -->
+      <tal:block tal:replace="structure body">Main Text</tal:block>
+    
+    </fo:flow>
+    
+  </fo:page-sequence>
+
+</fo:root>

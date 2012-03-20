@@ -1,0 +1,6 @@
+<layers>
+    <layer
+        name="collective.printout"
+        interface="collective.printout.interfaces.IPrintoutLayer"
+        />
+</layers>

@@ -1,0 +1,76 @@
+<html>
+<body>
+    <script type="text/javascript"
+        tal:attributes="src context.absolute_url() + '/++resource++collective.printout.javascripts/codemirror.js'">
+    </script>
+    
+    <link href=""
+          tal:attributes="href context.absolute_url() + '/++resource++collective.printout.stylesheets/docs.css'" type="text/css"></link>
+    
+    <style type="text/css">
+      .CodeMirror-line-numbers {
+        width: 2.2em;
+        color: #aaa;
+        background-color: #eee;
+        text-align: right;
+        padding-right: .3em;
+        font-size: 10pt;
+        font-family: monospace;
+        padding-top: .4em;
+        line-height: normal;
+      }
+      .CodeMirror-wrapping {
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+      }
+    </style>
+    
+    <h1 tal:content="error['title']"></h1><button>reload</button>
+    <pre tal:content="error['message']"></pre>
+    
+    <h2 tal:condition="'fo_output' in error">FO Output</h2>
+    <textarea id="fo_output" tal:content="error['fo_output']"></textarea>
+    
+    <h2 tal:condition="'template' in error">Template</h2>
+    <textarea id="default_template" tal:content="error['template']"></textarea>
+    
+    <h2>Stylesheet</h2>
+    <textarea id="default_body_stylesheet" tal:content="error['stylesheet']"></textarea>
+    
+    <h2>Body</h2>
+    <textarea tal:content="error['body']"></textarea>
+    
+    <h2>Cooked Body</h2>
+    <textarea tal:content="error['cooked_body']"></textarea>
+    
+    <script type="text/javascript">
+      var editor = CodeMirror.fromTextArea('fo_output', {
+        height: "550px",
+        parserfile: "parsexml.js",
+        stylesheet: "++resource++collective.printout.stylesheets/xmlcolors.css",
+        path: "++resource++collective.printout.javascripts/",
+        continuousScanning: 500,
+        lineNumbers: true
+      });
+
+      var editor = CodeMirror.fromTextArea('default_body_stylesheet', {
+        height: "550px",
+        parserfile: "parsexml.js",
+        stylesheet: "++resource++collective.printout.stylesheets/xmlcolors.css",
+        path: "++resource++collective.printout.javascripts/",
+        continuousScanning: 500,
+        lineNumbers: true
+      });
+    
+      var editor = CodeMirror.fromTextArea('default_template', {
+        height: "550px",
+        parserfile: "parsexml.js",
+        stylesheet: "++resource++collective.printout.stylesheets/xmlcolors.css",
+        path: "++resource++collective.printout.javascripts/",
+        continuousScanning: 500,
+        lineNumbers: true
+      });
+      
+    </script>    
+</body>
+</html>

@@ -1,0 +1,84 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/prefs_main_template/macros/master"
+      i18n:domain="plone">
+
+<metal:block fill-slot="top_slot"
+             tal:define="dummy python:request.set('disable_border',1)" />
+
+<body>
+<div id="content"
+     metal:fill-slot="prefs_configlet_content">
+
+    <script type="text/javascript"
+        tal:attributes="src context.absolute_url() + '/++resource++collective.printout.javascripts/codemirror.js'">
+    </script>
+    
+    <link href=""
+          tal:attributes="href context.absolute_url() + '/++resource++collective.printout.stylesheets/docs.css'" type="text/css"></link>
+
+    <style type="text/css">
+      .CodeMirror-line-numbers {
+        width: 2.2em;
+        color: #aaa;
+        background-color: #eee;
+        text-align: right;
+        padding-right: .3em;
+        font-size: 10pt;
+        font-family: monospace;
+        padding-top: .4em;
+        line-height: normal;
+      }
+      .CodeMirror-wrapping {
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+      }
+      .CodeMirror-line-numbers div {
+          width: 100%;
+          background: red;
+      }
+    </style>
+
+    <div metal:use-macro="context/global_statusmessage/macros/portal_message">
+      Portal status message
+    </div>
+
+    <a href=""
+       id="setup-link"
+       tal:attributes="href string:$portal_url/plone_control_panel"
+       i18n:translate="">
+        Site Setup
+    </a> &rsaquo;
+
+    <h1 class="documentFirstHeading" tal:content="view/label">View Title</h1>
+
+    <div id="layout-contents">
+        <span tal:replace="structure view/contents" />
+    </div>
+
+    <script type="text/javascript">
+      var editor = CodeMirror.fromTextArea('form-widgets-default_body_stylesheet', {
+        height: "550px",
+        parserfile: "parsexml.js",
+        stylesheet: "++resource++collective.printout.stylesheets/xmlcolors.css",
+        path: "++resource++collective.printout.javascripts/",
+        continuousScanning: 500,
+        lineNumbers: true
+      });
+    
+      var editor = CodeMirror.fromTextArea('form-widgets-default_template', {
+        height: "550px",
+        parserfile: "parsexml.js",
+        stylesheet: "++resource++collective.printout.stylesheets/xmlcolors.css",
+        path: "++resource++collective.printout.javascripts/",
+        continuousScanning: 500,
+        lineNumbers: true
+      });
+    </script>
+
+</div>
+</body>
+</html>

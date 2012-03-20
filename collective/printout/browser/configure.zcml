@@ -1,0 +1,57 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    i18n_domain="collective.printout">
+
+
+    <!-- Printable -->
+    <browser:page
+        for="*"
+        name="printable"
+        layer="..interfaces.IPrintoutLayer"
+        class=".browser.Printable"
+        permission="cmf.ManagePortal"
+        />
+		
+    <!-- MakePrintable -->
+    <browser:page
+        for="*"
+        name="make_printable"
+        layer="..interfaces.IPrintoutLayer"
+        class=".browser.MakePrintable"
+        permission="cmf.ManagePortal"
+        />
+			
+	<!-- Printout -->	
+    <browser:page
+        name="printout"
+        for="collective.printout.interfaces.IPrintable"
+        layer="..interfaces.IPrintoutLayer"
+        class=".browser.Printout"
+        permission="cmf.ManagePortal"
+        />
+
+    <!-- Control panel -->
+    <include package="plone.app.registry" />
+    <browser:page
+        name="printout-settings"
+        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+        class=".controlpanel.PrintoutSettingsControlPanel"
+        permission="cmf.ManagePortal"
+        />
+
+    <!-- Resource directory for javascripts -->
+    <browser:resourceDirectory
+        name="collective.printout.javascripts"
+        directory="javascripts"
+        layer="..interfaces.IPrintoutLayer"
+        />
+
+    <!-- Resource directory for stylesheets -->
+    <browser:resourceDirectory
+        name="collective.printout.stylesheets"
+        directory="stylesheets"
+        layer="..interfaces.IPrintoutLayer"
+        />
+</configure>

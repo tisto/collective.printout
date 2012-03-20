@@ -1,0 +1,13 @@
+====
+TODO
+====
+
+- Fix encoding problems.
+
+- Printout Control Panel
+  - printable types
+  - default print templates for types
+  
+- Avoid writing FOP files to the file system, use tmpfile instead.
+
+- Briefpapier als Hintergrund?
