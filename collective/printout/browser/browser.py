@@ -4,15 +4,12 @@ import tempfile
 
 from chameleon.zpt.template import PageTemplate
 
-from types import UnicodeType
-
 from xml.parsers.expat import ExpatError
 from xml.sax.saxutils import escape
 
 from Acquisition import aq_inner
 
 from Products.Five import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from Products.statusmessages.interfaces import IStatusMessage
 
@@ -26,10 +23,10 @@ from plone.registry.interfaces import IRegistry
 
 from collective.printout import log
 from collective.printout import CollectivePrintoutMessageFactory as _
-from collective.printout.fop import Fop 
+from collective.printout.fop import Fop
 from collective.printout.interfaces import IPrintable
 from collective.printout.interfaces import IPrintoutSettings
-from collective.printout.interfaces import DEFAULT_TEMPLATE 
+from collective.printout.interfaces import DEFAULT_TEMPLATE
 from collective.printout.interfaces import DEFAULT_BODY_STYLESHEET
 from collective.printout.util import cook_body
 
@@ -45,7 +42,7 @@ class Printable(BrowserView):
 class MakePrintable(BrowserView):
     """View to create a print version of the content object.
     """
-    
+
     def __call__(self):
         context = aq_inner(self.context)
         request = context.REQUEST
@@ -59,7 +56,7 @@ class MakePrintable(BrowserView):
 class Printout(BrowserView):
     """Printout version of the content object.
     """
-    
+
     def __init__(self, context, request):
         self.context = aq_inner(context)
         self.request = request
@@ -76,31 +73,31 @@ class Printout(BrowserView):
             self.default_body_stylesheet = DEFAULT_BODY_STYLESHEET
         else:
             self.default_body_stylesheet = settings.default_body_stylesheet
-            
+
     def __call__(self):
         """Returns the PDF printout.
         """
         context = aq_inner(self.context)
         body = context.getRawText()
-                
+
         # Check there is a template
         if self.default_template == '':
             IStatusMessage(self.request).addStatusMessage(
             _("Template is empty. Check your Printout control panel."),
             type="info")
             return self.request.response.redirect(context.absolute_url())
-        
+
         # Render Chameleon Template
-        plone_portal_state = getMultiAdapter((context, self.request), 
+        plone_portal_state = getMultiAdapter((context, self.request),
                                              name='plone_portal_state')
-        plone_tools = getMultiAdapter((context, self.request), 
+        plone_tools = getMultiAdapter((context, self.request),
                                       name='plone_tools')
-        plone_context_state = getMultiAdapter((context, self.request), 
-                                              name='plone_portal_state')        
+        plone_context_state = getMultiAdapter((context, self.request),
+                                              name='plone_portal_state')
         try:
-            pt = PageTemplate(self.default_template, 
-                              format="xml", 
-                              encoding="utf-8", 
+            pt = PageTemplate(self.default_template,
+                              format="xml",
+                              encoding="utf-8",
                               debug=True)
             cooked_body = cook_body(body, self.default_body_stylesheet)
             output = pt.render(context=context,
@@ -119,14 +116,14 @@ class Printout(BrowserView):
                 'cooked_body'   : ""
             }
             return self.error(error)
-        
+
         # Write Chameleon template output to file for further processing
         log.info("FO OUTPUT:\n\n" + output + "\n")
         fo_filename = tempfile.mktemp()
         fo_file = open(fo_filename, 'w')
         fo_file.write(output)
         fo_file.close()
-        
+
         # Create PDF
         output_filename = self.context.id + ".pdf"
         try:
@@ -147,13 +144,13 @@ class Printout(BrowserView):
                 'body'          : "",
                 'cooked_body'   : ""
             }
-            return self.error(error)            
+            return self.error(error)
 
         # Set status message
         IStatusMessage(self.request).addStatusMessage(
             _("Printout"),
             type="info")
-        
+
         # Deliver PDF
         return self.deliver(output_filename)
 
@@ -171,9 +168,9 @@ class Printout(BrowserView):
         """Returns a simple error page with debugging informations.
         """
         dirname = os.path.dirname(__file__)
-        
+
         filename_default = os.path.abspath(os.path.join(dirname, 'error.pt'))
-        fileObj = open(filename_default,"r")
+        fileObj = open(filename_default, "r")
         template = u"%s" % fileObj.read()
         fileObj.close()
         pt = PageTemplate(template)

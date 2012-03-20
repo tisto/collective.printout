@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
 
-from z3c.form import interfaces
-
 from zope import schema
 from zope.interface import Interface
 
@@ -10,14 +8,16 @@ from collective.printout import CollectivePrintoutMessageFactory as _
 
 dirname = os.path.dirname(__file__)
 
-filename_default = os.path.abspath(os.path.join(dirname, 'templates', 'default.pt'))
-fileObj = open(filename_default,"r")
+filename_default = os.path.abspath(
+    os.path.join(dirname, 'templates', 'default.pt'))
+fileObj = open(filename_default, "r")
 DEFAULT_TEMPLATE = u"%s" % fileObj.read()
 fileObj.close()
 
 
-filename_default = os.path.abspath(os.path.join(dirname, 'templates', 'body.xsl'))
-fileObj = open(filename_default,"r")
+filename_default = os.path.abspath(
+    os.path.join(dirname, 'templates', 'body.xsl'))
+fileObj = open(filename_default, "r")
 DEFAULT_BODY_STYLESHEET = u"%s" % fileObj.read()
 fileObj.close()
 
@@ -26,12 +26,12 @@ class IPrintoutLayer(Interface):
     """Request marker installed via browserlayer.xml.
     """
 
-    
+
 class IPrintable(Interface):
     """Marker interface for printout content objects.
     """
 
-    
+
 class IPrintoutSettings(Interface):
 
     use_default_template = schema.Bool(
@@ -42,7 +42,7 @@ class IPrintoutSettings(Interface):
         required=False,
         default=True,
         )
-    
+
     default_template = schema.Text(
         title=_(u"Default template"),
         description=_(u"help_default_template",
@@ -50,7 +50,7 @@ class IPrintoutSettings(Interface):
         required=False,
         default=DEFAULT_TEMPLATE,
     )
-    
+
     use_default_body_stylesheet = schema.Bool(
         title=_(u"label_use_default_body_stylesheet",
                 default=u"Use default template"),
@@ -58,8 +58,8 @@ class IPrintoutSettings(Interface):
                 default=u"If enabled, a default template for the body text is used."),
         required=False,
         default=True,
-        )    
-    
+        )
+
     default_body_stylesheet = schema.Text(
         title=_(u"Default body stylesheet"),
         description=_(u"help_default_body_stylesheet",
